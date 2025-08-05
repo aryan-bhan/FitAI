@@ -16,16 +16,20 @@ import com.fitness.activityservice.dto.ActivityResponse;
 import com.fitness.activityservice.service.ActivityService;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/activities")
 @AllArgsConstructor
+@Slf4j
 public class ActivityController {
 	
 	private ActivityService activityService;
 	
 	@PostMapping
-	public ResponseEntity<ActivityResponse> trackActivity(@RequestBody ActivityRequest request){
+	public ResponseEntity<ActivityResponse> trackActivity(@RequestBody ActivityRequest request,@RequestHeader("X-User-ID") String userId){
+//		log.info("In Controller : {}",request);
+		if(userId != null) request.setUserId(userId);
 		return ResponseEntity.ok(activityService.trackActivity(request));
 	}
 	

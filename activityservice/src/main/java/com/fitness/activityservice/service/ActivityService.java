@@ -32,6 +32,7 @@ public class ActivityService {
 	
 	public ActivityResponse trackActivity(ActivityRequest request) {
 		
+		log.info(request.getUserId());
 		boolean validUser = uservalidationService.validateUser(request.getUserId());
 		if(!validUser) throw new RuntimeException("Invalid User Id."+ request.getUserId());
 		Activity activity = Activity.builder()
@@ -50,6 +51,7 @@ public class ActivityService {
 		}catch(Exception e){
 			log.error("Failed to Send activity to rabbitmq." + savedActivity.getId());
 		}
+		log.info("Successfully added Activity : {}",savedActivity);
 		return mapToResponse(savedActivity);
 	}
 	
